@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить заказ - CarPerformance</title>
+    <link rel="stylesheet" th:href="@{/parts.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="blocks/header :: header"></div>
+
+<div class="container">
+    <h1>Добавить заказ</h1>
+
+    <form action="/request/add" method="post">
+        <div class="form-group">
+            <label for="vinNumber">Введите VIN машины</label>
+            <input type="text" name="car.vinNumber" id="vinNumber" placeholder="Введите VIN" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Введите номер телефона владельца</label>
+            <input type="text" name="owner.phone" id="phone" placeholder="Введите номер телефона" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea name="description" id="description" placeholder="Описание заказа" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="repair">Ремонт</label>
+            <textarea name="repair" id="repair" placeholder="Необходимый ремонт" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="resolutionDate">Дата завершения</label>
+            <input type="date" name="resolutionDate" id="resolutionDate" required>
+        </div>
+
+        <button type="submit">Добавить заказ</button>
+    </form>
+
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+    <div th:if="${success}" class="success" th:text="${success}"></div>
+</div>
+</body>
+</html>

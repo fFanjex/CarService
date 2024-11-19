@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarPerformance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+<div th:replace="blocks/header :: header"></div>
+
+<div class="container">
+    <h1>Главная страница CarPerformance</h1>
+    <div class="button-container">
+        <a href="/car/add" class="nav-button">Добавить машину</a>
+        <a href="/owner/add" class="nav-button">Добавить владельца</a>
+        <a href="/orders" class="nav-button">Посмотреть все заказы</a>
+    </div>
+</div>
+</body>
+</html>

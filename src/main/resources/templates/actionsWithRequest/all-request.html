@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Все заказы - CarPerformance</title>
+    <link rel="stylesheet" href="home.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        .order-list {
+            margin-top: 20px;
+        }
+
+        .order-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .order-field {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .order-field strong {
+            color: #555;
+        }
+
+        .order-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .make-order-edit-delete-button {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background: #007bff;
+            transition: background 0.3s ease;
+            font-size: 14px;
+        }
+
+        .make-order-edit-delete-button:hover {
+            background: #0056b3;
+        }
+
+        .make-order-edit-delete-button:nth-child(2) {
+            background: #dc3545;
+        }
+
+        .make-order-edit-delete-button:nth-child(2):hover {
+            background: #a71d2a;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="blocks/header :: header"></div>
+
+<div class="container">
+    <h1>Все заказы</h1>
+    <div class="order-list">
+        <th:block th:each="request : ${requests}">
+            <div class="order-item">
+                <div class="order-field">
+                    <strong>Машина:</strong>
+                    <span th:text="${request.car.brand + ' ' + request.car.vinNumber}"></span>
+                </div>
+                <div class="order-field">
+                    <strong>Владелец:</strong>
+                    <span th:text="${request.owner.firstName + ' ' + request.owner.lastName}"></span>
+                </div>
+                <div class="order-field">
+                    <strong>Дата заказа:</strong>
+                    <span th:text="${#temporals.format(request.requestDate, 'dd.MM.yyyy')}"></span>
+                </div>
+                <div class="order-field">
+                    <strong>Описание:</strong>
+                    <span th:text="${request.description}"></span>
+                </div>
+                <div class="order-field">
+                    <strong>Ремонт:</strong>
+                    <span th:text="${request.repair}"></span>
+                </div>
+                <div class="order-field">
+                    <strong>Дата завершения:</strong>
+                    <span th:text="${#temporals.format(request.resolutionDate, 'dd.MM.yyyy')}"></span>
+                </div>
+
+                <!-- Кнопки для изменения и удаления заказа -->
+                <div class="order-actions">
+                    <a class="make-order-edit-delete-button" th:href="@{/orders/edit/{id}(id=${request.id})}">Изменить заказ</a>
+                    <a class="make-order-edit-delete-button" th:href="@{/orders/delete/{id}(id=${request.id})}" onclick="return confirm('Вы уверены, что хотите удалить этот заказ?')">Удалить заказ</a>
+                </div>
+
+                <hr>
+            </div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

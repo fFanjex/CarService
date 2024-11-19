@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить заказ - CarPerformance</title>
+    <link rel="stylesheet" th:href="@{/parts.css}">
+</head>
+<body>
+<div th:replace="blocks/header :: header"></div>
+
+<div class="container">
+    <h1>Изменить заказ</h1>
+    <form th:action="@{/orders/edit/{id}(id=${request.id})}" method="post">
+        <div class="form-group">
+            <label for="carBrand">Марка автомобиля:</label>
+            <input type="text" id="carBrand" name="car.brand" th:value="${request.car.brand}" required>
+        </div>
+        <div class="form-group">
+            <label for="vinNumber">VIN-номер:</label>
+            <input type="text" id="vinNumber" name="car.vinNumber" th:value="${request.car.vinNumber}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Описание:</label>
+            <textarea id="description" name="description" required th:text="${request.description}"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="repair">Ремонт:</label>
+            <input type="text" id="repair" name="repair" th:value="${request.repair}" required>
+        </div>
+        <div class="form-group">
+            <label for="resolutionDate">Дата завершения:</label>
+            <input type="date" id="resolutionDate" name="resolutionDate" th:value="${request.resolutionDate}" required>
+        </div>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</div>
+</body>
+</html>

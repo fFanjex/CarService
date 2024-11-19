@@ -1,0 +1,265 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(240, 237, 205);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgb(64, 64, 61);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.site-name {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.5em;
+    color: white;
+    font-weight: bold;
+    border: 2px solid #007bff;
+    padding: 5px 10px;
+    border-radius: 8px;
+    user-select: none;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: -10px;
+}
+
+.nav-button {
+    background-color: #007bff;
+    color: white;
+    border: 2px solid transparent;
+    padding: 10px 35px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    text-decoration: none;
+}
+
+.nav-button:hover {
+    background-color: #0056b3;
+    border-color: #333;
+}
+
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 80px;
+    width: 80%;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.parts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.part-item {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.part-item h2 {
+    margin: 0;
+    color: #007bff;
+}
+
+.part-item p {
+    margin: 5px 0 0;
+    color: #555;
+}
+
+.make-order-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.make-order-button:hover {
+    background-color: #0056b3;
+}
+
+.make-order-edit-delete-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 5px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 250px;
+    margin-left: 250px;
+    text-decoration: none;
+}
+
+.make-order-edit-delete-button:hover {
+    background-color: #0056b3;
+}
+
+button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #3e8e41;
+    transform: scale(1.02);
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    resize: vertical;
+    background-color: #f9f9f9;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    outline: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%234CAF50' d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E"); /* Добавляем кастомную стрелку */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 15px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    outline: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 120px;
+    width: 80%;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.order-list {
+    margin-top: 20px;
+}
+
+.order-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.order-field {
+    text-align: left;
+    font-size: 1.1rem;
+    margin: 10px 0;
+    color: #555;
+}
+
+.order-field strong {
+    color: #333;
+}
+
+hr {
+    border: none;
+    border-top: 2px solid #007bff;
+    margin: 20px 0;
+}
+
+.nav-button, .make-order-button, .make-order-edit-delete-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-button:hover, .make-order-button:hover, .make-order-edit-delete-button:hover {
+    background-color: #0056b3;
+}
+

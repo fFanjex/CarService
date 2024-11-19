@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список заказов - CarPerformance</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<div th:replace="blocks/header :: header"></div>
+
+<div class="container">
+    <h1>Список заказов</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Машина</th>
+            <th>Владелец</th>
+            <th>Дата заказа</th>
+            <th>Описание</th>
+            <th>Ремонт</th>
+            <th>Дата завершения</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="request : ${requests}">
+            <tr>
+                <td th:text="${request.car.brand + ' ' + request.car.vinNumber}"></td>
+                <td th:text="${request.owner.firstName + ' ' + request.owner.lastName}"></td>
+                <td th:text="${#temporals.format(request.requestDate, 'dd.MM.yyyy')}"></td>
+                <td th:text="${request.description}"></td>
+                <td th:text="${request.repair}"></td>
+                <td th:text="${#temporals.format(request.resolutionDate, 'dd.MM.yyyy')}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
