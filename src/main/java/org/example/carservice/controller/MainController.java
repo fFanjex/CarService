@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,22 +95,25 @@ public class MainController {
     }
 
     @PostMapping("/orders/edit/{id}")
-    public String updateOrder(@PathVariable Long id, @ModelAttribute Request request) {
-        Optional<Request> existingOptionalRequest = requestService.getRequestById(id);
-
-        existingOptionalRequest.ifPresent(existingRequest -> {
-            existingRequest.setCar(request.getCar());
-            existingRequest.setOwner(request.getOwner());
-            existingRequest.setRequestDate(request.getRequestDate());
-            existingRequest.setDescription(request.getDescription());
-            existingRequest.setRepair(request.getRepair());
-            existingRequest.setResolutionDate(request.getResolutionDate());
-
+    public String updateOrder(@PathVariable Long id, @ModelAttribute Request requestDetails) {
+        Optional<Request> requestOptional = requestService.getRequestById(id);
+        if (requestOptional.isPresent()) {
+            Request existingRequest = requestOptional.get();
+            existingRequest.setDescription(requestDetails.getDescription());
+            existingRequest.setRepair(requestDetails.getRepair());
+            existingRequest.setResolutionDate(requestDetails.getResolutionDate());
+            if (requestDetails.getRequestDate() != null) {
+                existingRequest.setRequestDate(requestDetails.getRequestDate());
+            } else {
+                existingRequest.setRequestDate(LocalDate.now());
+            }
             requestService.saveRequest(existingRequest);
-        });
-
-        return "redirect:/orders";
+            return "redirect:/orders";
+        } else {
+            return "error";
+        }
     }
+
 
     @GetMapping("/orders/delete/{id}")
     public String deleteOrder(@PathVariable Long id) {
@@ -117,3 +121,5 @@ public class MainController {
         return "redirect:/orders";
     }
 }
+
+//jFyRwoNyTQCjoQinM
