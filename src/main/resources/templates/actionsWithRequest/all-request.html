@@ -27,7 +27,6 @@
             color: #444;
         }
 
-        /* Новый стиль для поля с количеством заказов */
         .order-count {
             background-color: #007bff;
             color: white;
@@ -104,8 +103,9 @@
     <h1>Все заказы</h1>
 
     <div class="order-count">
-        Всего заказов: <span th:text="${#lists.size(requests)}"></span>
+        Всего заказов: <span th:text="${totalItems}"></span>
     </div>
+
 
     <div class="order-list">
         <th:block th:each="request : ${requests}">
@@ -144,6 +144,23 @@
             </div>
         </th:block>
     </div>
+    <div class="pagination">
+        <ul>
+            <li th:if="${currentPage > 0}">
+                <a th:href="@{/orders(page=${currentPage - 1}, size=20)}">Назад</a>
+            </li>
+
+            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a th:href="@{/orders(page=${i}, size=20)}" th:text="${i + 1}">1</a>
+            </li>
+
+            <li th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{/orders(page=${currentPage + 1}, size=20)}">Вперед</a>
+            </li>
+        </ul>
+    </div>
+
 </div>
 </body>
 </html>

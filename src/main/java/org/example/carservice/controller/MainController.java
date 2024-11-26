@@ -2,6 +2,8 @@ package org.example.carservice.controller;
 
 import org.example.carservice.model.*;
 import org.example.carservice.service.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -79,9 +81,13 @@ public class MainController {
     }
 
     @GetMapping("/orders")
-    public String viewAllOrders(Model model) {
-        List<Request> requests = requestService.getAllRequest();
-        model.addAttribute("requests", requests);
+    public String viewAllOrders(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "20") int size, Model model) {
+        Page<Request> requestPage = requestService.getAllRequestPaginated(PageRequest.of(page, size));
+        model.addAttribute("requests", requestPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", requestPage.getTotalPages());
+        model.addAttribute("totalItems", requestPage.getTotalElements());
         return "actionsWithRequest/all-request";
     }
 

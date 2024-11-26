@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,10 +38,9 @@ public class RequestService {
         requestRepository.deleteById(id);
     }
 
-//    public Page<Request> getAllRequestPaginated(int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        return requestRepository.findAll(pageable);
-//    }
+    public Page<Request> getAllRequestPaginated(Pageable pageable) {
+        return requestRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id")));
+    }
 
     public List<Request> findByVin(String vin) {
         return  requestRepository.findByCar_VinNumber(vin);
