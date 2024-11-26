@@ -18,7 +18,7 @@ public class SparePartService {
     }
 
     public List<SparePart> findAllParts() {
-        return sparePartRepository.findAll();
+        return sparePartRepository.findAll().stream().sorted((o1, o2) -> o1.getId().compareTo(o2.getId())).toList();
     }
 
     public Optional<SparePart> findPartById(Long id) {

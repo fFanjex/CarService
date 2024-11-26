@@ -1,11 +1,7 @@
 package org.example.carservice.controller;
 
-import org.example.carservice.model.Car;
-import org.example.carservice.model.Owner;
-import org.example.carservice.model.Request;
-import org.example.carservice.service.CarService;
-import org.example.carservice.service.OwnerService;
-import org.example.carservice.service.RequestService;
+import org.example.carservice.model.*;
+import org.example.carservice.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +16,17 @@ public class MainController {
     private final CarService carService;
     private final OwnerService ownerService;
     private final RequestService requestService;
+    private final EmployeeService employeeService;
+    private final EmployeeInfoService employeeInfoService;
 
     public MainController(CarService carService, OwnerService ownerService,
-                          RequestService requestService) {
+                          RequestService requestService, EmployeeService employeeService,
+                          EmployeeInfoService employeeInfoService) {
         this.carService = carService;
         this.ownerService = ownerService;
         this.requestService = requestService;
+        this.employeeService = employeeService;
+        this.employeeInfoService = employeeInfoService;
     }
 
     @GetMapping("/")
@@ -85,8 +86,8 @@ public class MainController {
     }
 
     @GetMapping("/orders/edit/{id}")
-    public String editOrder(@PathVariable Long id, Model model) {
-        Optional<Request> requestOptional = requestService.getRequestById(id);
+    public String editOrder(@PathVariable Integer id, Model model) {
+        Optional<Request> requestOptional = requestService.getRequestById(Long.valueOf(id));
         requestOptional.ifPresent(request -> {
             model.addAttribute("request", request);
         });
@@ -120,6 +121,29 @@ public class MainController {
         requestService.deleteRequest(id);
         return "redirect:/orders";
     }
-}
 
-//jFyRwoNyTQCjoQinM
+    @GetMapping("/employee")
+    public String employee(Model model) {
+        List<Employee> employeeList = employeeService.getAllEmployees();
+        model.addAttribute("employees", employeeList);
+        return "employee";
+    }
+
+    @PostMapping("/employee/delete/{id}")
+    public String deleteEmployee(@PathVariable Long id) {
+        employeeService.deleteEmployee(id);
+        return "redirect:/employee";
+    }
+
+    @GetMapping("/employee/details/{id}")
+    public String viewEmployeeDetails(@PathVariable Integer id, Model model) {
+        Optional<EmployeeInfo> employeeInfoOptional = employeeInfoService.findEmployeeInfoByEmployeeId(id);
+        if (employeeInfoOptional.isPresent()) {
+            EmployeeInfo employeeInfo = employeeInfoOptional.get();
+            model.addAttribute("employeeInfo", employeeInfo);
+            return "employee-details";
+        }
+        return "error";
+    }
+
+}

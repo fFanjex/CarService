@@ -1,16 +1,13 @@
 package org.example.carservice.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "employee")
 public class Employee {
     @Id
-    @ColumnDefault("nextval('employee_employee_id_seq'::regclass)")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id", nullable = false)
     private Integer id;
 
@@ -28,6 +25,8 @@ public class Employee {
 
     @Column(name = "phone", nullable = false, length = 25)
     private String phone;
+
+
 
     public Integer getId() {
         return id;

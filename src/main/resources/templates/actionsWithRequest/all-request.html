@@ -27,6 +27,19 @@
             color: #444;
         }
 
+        /* Новый стиль для поля с количеством заказов */
+        .order-count {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
         .order-list {
             margin-top: 20px;
         }
@@ -89,6 +102,11 @@
 
 <div class="container">
     <h1>Все заказы</h1>
+
+    <div class="order-count">
+        Всего заказов: <span th:text="${#lists.size(requests)}"></span>
+    </div>
+
     <div class="order-list">
         <th:block th:each="request : ${requests}">
             <div class="order-item">
@@ -117,7 +135,6 @@
                     <span th:text="${#temporals.format(request.resolutionDate, 'dd.MM.yyyy')}"></span>
                 </div>
 
-                <!-- Кнопки для изменения и удаления заказа -->
                 <div class="order-actions">
                     <a class="make-order-edit-delete-button" th:href="@{/orders/edit/{id}(id=${request.id})}">Изменить заказ</a>
                     <a class="make-order-edit-delete-button" th:href="@{/orders/delete/{id}(id=${request.id})}" onclick="return confirm('Вы уверены, что хотите удалить этот заказ?')">Удалить заказ</a>

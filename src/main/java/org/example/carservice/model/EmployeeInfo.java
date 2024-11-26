@@ -9,7 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "employee_info")
 public class EmployeeInfo {
     @Id
-    @ColumnDefault("nextval('employee_info_employee_info_id_seq'::regclass)")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_info_id", nullable = false)
     private Integer id;
 
@@ -22,12 +22,12 @@ public class EmployeeInfo {
     @Column(name = "work_schedule", length = 50)
     private String workSchedule;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "position_id", nullable = false)
     private Position position;

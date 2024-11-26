@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeInfoService {
@@ -23,11 +24,15 @@ public class EmployeeInfoService {
         return employeeInfoList;
     }
 
-    public EmployeeInfo getEmployeeInfoById(Long id) {
-        return employeeInfoRepository.findById(id).orElse(null);
-    }
-
     public void deleteInfo(Long id) {
         employeeInfoRepository.deleteById(id);
+    }
+
+    public Optional<EmployeeInfo> findEmployeeInfoByEmployeeId(Integer id) {
+        return employeeInfoRepository.findEmployeeInfoByEmployeeId(id);
+    }
+
+    public EmployeeInfo addEmployeeInfo(EmployeeInfo employeeInfo) {
+        return employeeInfoRepository.save(employeeInfo);
     }
 }

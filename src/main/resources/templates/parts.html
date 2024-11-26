@@ -9,16 +9,20 @@
 <div th:replace="blocks/header :: header"></div>
 <div class="container">
     <h1>Запчасти в наличии</h1>
+    
+    <div class="part-count">
+        Всего запчастей: <span th:text="${#lists.size(parts)}"></span>
+    </div>
 
     <form action="/parts/add" method="post">
         <input type="text" name="partName" placeholder="Part Name" required />
         <input type="text" name="partNumber" placeholder="Part Number" required />
-        <button type="submit" class="nav-button">Add New Part</button>
+        <button type="submit">Add New Part</button>
     </form>
 
     <form action="/parts/search" method="get">
         <input type="text" name="partName" placeholder="Search by part name" required />
-        <button type="submit" class="nav-button">Search</button>
+        <button type="submit">Search</button>
     </form>
 
     <div class="parts-list">

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PartsController {
@@ -49,10 +50,18 @@ public class PartsController {
         return "actionsWithParts/edit-part";
     }
 
-    @PostMapping("/parts/edit")
-    public String updatePart(@ModelAttribute("partToEdit") SparePart updatedPart) {
-        sparePartService.savePart(updatedPart);
-        return "redirect:/parts";
+    @PostMapping("/parts/edit/{id}")
+    public String updatePart(@PathVariable Long id, @ModelAttribute SparePart partDetails) {
+        Optional<SparePart> partOptional = sparePartService.findPartById(id);
+        if (partOptional.isPresent()) {
+            SparePart existingPart = partOptional.get();
+            existingPart.setPartName(partDetails.getPartName());
+            existingPart.setPartNumber(partDetails.getPartNumber());
+            sparePartService.savePart(existingPart);
+            return "redirect:/parts";
+        } else {
+            return "error";
+        }
     }
 
     @GetMapping("/parts/search")
