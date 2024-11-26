@@ -3,6 +3,9 @@ package org.example.carservice.controller;
 import org.example.carservice.model.SparePart;
 import org.example.carservice.service.SparePartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +24,14 @@ public class PartsController {
     }
 
     @GetMapping("/parts")
-    public String parts(Model model) {
-        List<SparePart> parts = sparePartService.findAllParts();
-        model.addAttribute("parts", parts);
-        model.addAttribute("newPart", new SparePart());
+    public String parts(@RequestParam(defaultValue = "0") int page,
+                        @RequestParam(defaultValue = "10") int size, Model model) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<SparePart> partPage = sparePartService.findAllPartsPaginated(pageable);
+        model.addAttribute("parts", partPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", partPage.getTotalPages());
+        model.addAttribute("totalItems", partPage.getTotalElements());
         return "parts";
     }
 

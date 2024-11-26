@@ -9,9 +9,9 @@
 <div th:replace="blocks/header :: header"></div>
 <div class="container">
     <h1>Запчасти в наличии</h1>
-    
+
     <div class="part-count">
-        Всего запчастей: <span th:text="${#lists.size(parts)}"></span>
+        Всего запчастей: <span th:text="${totalItems}"></span>
     </div>
 
     <form action="/parts/add" method="post">
@@ -33,6 +33,23 @@
             <a th:href="@{/parts/edit/{id}(id=${part.id})}" class="make-order-edit-delete-button">Edit</a>
             <a th:href="@{/parts/delete/{id}(id=${part.id})}" class="make-order-edit-delete-button">Delete</a>
         </div>
+    </div>
+
+    <div class="pagination">
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{/parts(page=${currentPage - 1})}">Назад</a>
+    </span>
+
+        <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
+        <a th:href="@{/parts(page=${pageNum})}"
+           th:text="${pageNum + 1}"
+           th:classappend="${pageNum == currentPage ? ' active' : ''}">
+        </a>
+    </span>
+
+        <span th:if="${currentPage < totalPages - 1}">
+        <a th:href="@{/parts(page=${currentPage + 1})}">Вперед</a>
+    </span>
     </div>
 </div>
 </body>

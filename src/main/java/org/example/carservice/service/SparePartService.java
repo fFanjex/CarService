@@ -3,6 +3,10 @@ package org.example.carservice.service;
 import org.example.carservice.model.SparePart;
 import org.example.carservice.repository.SparePartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +31,10 @@ public class SparePartService {
 
     public List<SparePart> findPartsByName(String partName) {
         return sparePartRepository.findByPartName(partName);
+    }
+
+    public Page<SparePart> findAllPartsPaginated(Pageable pageable) {
+        return sparePartRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id")));
     }
 
     public void savePart(SparePart sparePart) {
