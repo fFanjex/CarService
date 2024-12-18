@@ -180,20 +180,6 @@
             pointer-events: none;
             font-size: 14px;
         }
-        .reset-button {
-            display: inline-block;
-            padding: 10px 15px;
-            text-decoration: none;
-            color: #fff;
-            background: #6c757d;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: background 0.3s ease;
-        }
-
-        .reset-button:hover {
-            background: #5a6268;
-        }
     </style>
 </head>
 <body>
@@ -214,9 +200,6 @@
         </div>
         <div>
             <button type="submit">Отфильтровать</button>
-        </div>
-        <div>
-            <a th:href="@{/orders/filter(page=0, size=20)}" class="reset-button">Сбросить фильтр</a>
         </div>
     </form>
 
@@ -275,7 +258,7 @@
 
             <li th:each="i : ${#numbers.sequence(currentPage - 2 < 0 ? 0 : currentPage - 2, currentPage + 2 > totalPages - 1 ? totalPages - 1 : currentPage + 2)}"
                 th:classappend="${i == currentPage} ? 'active'">
-                <a th:href="@{/orders/filter(page=${i}, size=20, carName=${carName})}" th:text="${i + 1}"></a>
+                <a th:href="@{/orders(page=${i}, size=20)}" th:text="${i + 1}"></a>
             </li>
 
             <li th:if="${currentPage + 3 < totalPages}">

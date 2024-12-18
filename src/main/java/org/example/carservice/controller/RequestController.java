@@ -82,25 +82,13 @@ public class RequestController {
     }
 
     @GetMapping("/orders/filter")
-    public String filterOrderByCarName(
-            @RequestParam(value = "carName", required = false) String carName,
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "20") int size,
-            Model model) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
-        Page<Request> requestPage;
-
-        if (carName == null || carName.isEmpty()) {
-            requestPage = requestService.getAllRequestPaginated(pageable);
-        } else {
-            requestPage = requestService.findByCarBrandPaginated(carName, pageable);
-        }
-
-        model.addAttribute("requests", requestPage.getContent());
-        model.addAttribute("currentPage", requestPage.getNumber());
-        model.addAttribute("totalPages", requestPage.getTotalPages());
-        model.addAttribute("carName", carName);
-
+    public String filterOrdersByCarName(@RequestParam(value = "carName", required = false) String carName,
+                                        Model model) {
+        List<Request> requests = carName == null || carName.isEmpty()
+                ? requestService.getAllRequest()
+                : requestService.findByCarBrand(carName);
+        model.addAttribute("requests", requests);
+        model.addAttribute("carName", carName); // сохраняем фильтр в представлении
         return "actionsWithRequest/all-request";
     }
 
