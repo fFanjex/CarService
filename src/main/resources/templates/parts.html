@@ -4,9 +4,147 @@
     <meta charset="UTF-8">
     <title>Запчасти в наличии - CarPerformance</title>
     <link rel="stylesheet" th:href="@{/parts.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        .part-count {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        form input {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        form button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        .parts-list {
+            margin-top: 20px;
+        }
+
+        .part-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .make-order-edit-delete-button {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            background: #007bff;
+            transition: background 0.3s ease;
+            font-size: 14px;
+            margin-right: 170px;
+            margin-left: 170px;
+        }
+
+        .make-order-edit-delete-button:hover {
+            background: #0056b3;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+
+        .pagination ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination li a {
+            display: inline-block;
+            padding: 8px 12px;
+            text-decoration: none;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .pagination li a:hover {
+            background: #0056b3;
+        }
+
+        .pagination li.active a {
+            background: #0056b3;
+            font-weight: bold;
+        }
+
+        .ellipsis {
+            padding: 8px 12px;
+            color: #777;
+            background: none;
+            border: none;
+            pointer-events: none;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="blocks/header :: header"></div>
+
 <div class="container">
     <h1>Запчасти в наличии</h1>
 
@@ -36,20 +174,36 @@
     </div>
 
     <div class="pagination">
-    <span th:if="${currentPage > 0}">
-        <a th:href="@{/parts(page=${currentPage - 1})}">Назад</a>
-    </span>
+        <ul>
+            <li th:if="${currentPage > 0}">
+                <a th:href="@{/parts(page=${currentPage - 1})}">Назад</a>
+            </li>
 
-        <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
-        <a th:href="@{/parts(page=${pageNum})}"
-           th:text="${pageNum + 1}"
-           th:classappend="${pageNum == currentPage ? ' active' : ''}">
-        </a>
-    </span>
+            <li th:if="${currentPage > 2}">
+                <a th:href="@{/parts(page=0)}">1</a>
+            </li>
 
-        <span th:if="${currentPage < totalPages - 1}">
-        <a th:href="@{/parts(page=${currentPage + 1})}">Вперед</a>
-    </span>
+            <li th:if="${currentPage > 3}">
+                <span class="ellipsis">...</span>
+            </li>
+
+            <li th:each="i : ${#numbers.sequence(currentPage - 2 < 0 ? 0 : currentPage - 2, currentPage + 2 > totalPages - 1 ? totalPages - 1 : currentPage + 2)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a th:href="@{/parts(page=${i})}" th:text="${i + 1}"></a>
+            </li>
+
+            <li th:if="${currentPage + 3 < totalPages}">
+                <span class="ellipsis">...</span>
+            </li>
+
+            <li th:if="${currentPage + 2 < totalPages - 1}">
+                <a th:href="@{/parts(page=${totalPages - 1})}" th:text="${totalPages}"></a>
+            </li>
+
+            <li th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{/parts(page=${currentPage + 1})}">Вперед</a>
+            </li>
+        </ul>
     </div>
 </div>
 </body>

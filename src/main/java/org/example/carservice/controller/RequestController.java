@@ -7,6 +7,7 @@ import org.example.carservice.service.CarService;
 import org.example.carservice.service.OwnerService;
 import org.example.carservice.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,4 +80,28 @@ public class RequestController {
         model.addAttribute("requests", requests);
         return "actionsWithRequest/all-request";
     }
+
+    @GetMapping("/orders/filter")
+    public String filterOrderByCarName(
+            @RequestParam(value = "carName", required = false) String carName,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            Model model) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+        Page<Request> requestPage;
+
+        if (carName == null || carName.isEmpty()) {
+            requestPage = requestService.getAllRequestPaginated(pageable);
+        } else {
+            requestPage = requestService.findByCarBrandPaginated(carName, pageable);
+        }
+
+        model.addAttribute("requests", requestPage.getContent());
+        model.addAttribute("currentPage", requestPage.getNumber());
+        model.addAttribute("totalPages", requestPage.getTotalPages());
+        model.addAttribute("carName", carName);
+
+        return "actionsWithRequest/all-request";
+    }
+
 }

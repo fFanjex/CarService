@@ -12,4 +12,7 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, Long> {
     List<Request> findByCar_VinNumber(String vin);
     Page<Request> findAll(Pageable pageable);
+    List<Request> findByCar_BrandContainingIgnoreCase(String brand);
+    Page<Request> findByCar_BrandContainingIgnoreCase(String brand, Pageable pageable);
+
 }

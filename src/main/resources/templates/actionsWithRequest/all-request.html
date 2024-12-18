@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Все заказы - CarPerformance</title>
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="/home.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,6 +38,43 @@
             display: inline-block;
             margin-bottom: 20px;
             text-align: center;
+        }
+
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-form label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .filter-form input,
+        .filter-form button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .filter-form button {
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .filter-form button:hover {
+            background: #0056b3;
         }
 
         .order-list {
@@ -94,6 +132,68 @@
             border-top: 1px solid #ddd;
             margin: 20px 0;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+
+        .pagination ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination li a {
+            display: inline-block;
+            padding: 8px 12px;
+            text-decoration: none;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .pagination li a:hover {
+            background: #0056b3;
+        }
+
+        .pagination li.active a {
+            background: #0056b3;
+            font-weight: bold;
+        }
+
+        .ellipsis {
+            padding: 8px 12px;
+            color: #777;
+            background: none;
+            border: none;
+            pointer-events: none;
+            font-size: 14px;
+        }
+        .reset-button {
+            display: inline-block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #fff;
+            background: #6c757d;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background: #5a6268;
+        }
     </style>
 </head>
 <body>
@@ -106,6 +206,19 @@
         Всего заказов: <span th:text="${totalItems}"></span>
     </div>
 
+    <form class="filter-form" th:action="@{/orders/filter}" method="get">
+        <div>
+            <label for="carName">Название автомобиля:</label>
+            <input type="text" id="carName" name="carName" placeholder="Введите название авто"
+                   th:value="${carName}">
+        </div>
+        <div>
+            <button type="submit">Отфильтровать</button>
+        </div>
+        <div>
+            <a th:href="@{/orders/filter(page=0, size=20)}" class="reset-button">Сбросить фильтр</a>
+        </div>
+    </form>
 
     <div class="order-list">
         <th:block th:each="request : ${requests}">
@@ -137,30 +250,47 @@
 
                 <div class="order-actions">
                     <a class="make-order-edit-delete-button" th:href="@{/orders/edit/{id}(id=${request.id})}">Изменить заказ</a>
-                    <a class="make-order-edit-delete-button" th:href="@{/orders/delete/{id}(id=${request.id})}" onclick="return confirm('Вы уверены, что хотите удалить этот заказ?')">Удалить заказ</a>
+                    <a class="make-order-edit-delete-button" th:href="@{/orders/delete/{id}(id=${request.id})}"
+                       onclick="return confirm('Вы уверены, что хотите удалить этот заказ?')">Удалить заказ</a>
                 </div>
 
                 <hr>
             </div>
         </th:block>
     </div>
+
     <div class="pagination">
         <ul>
             <li th:if="${currentPage > 0}">
                 <a th:href="@{/orders(page=${currentPage - 1}, size=20)}">Назад</a>
             </li>
 
-            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-                th:classappend="${i == currentPage} ? 'active'">
-                <a th:href="@{/orders(page=${i}, size=20)}" th:text="${i + 1}">1</a>
+            <li th:if="${currentPage > 2}">
+                <a th:href="@{/orders(page=0, size=20)}">1</a>
             </li>
 
-            <li th:if="${currentPage < totalPages - 1}">
-                <a th:href="@{/orders(page=${currentPage + 1}, size=20)}">Вперед</a>
+            <li th:if="${currentPage > 3}">
+                <span class="ellipsis">...</span>
+            </li>
+
+            <li th:each="i : ${#numbers.sequence(currentPage - 2 < 0 ? 0 : currentPage - 2, currentPage + 2 > totalPages - 1 ? totalPages - 1 : currentPage + 2)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a th:href="@{/orders/filter(page=${i}, size=20, carName=${carName})}" th:text="${i + 1}"></a>
+            </li>
+
+            <li th:if="${currentPage + 3 < totalPages}">
+                <span class="ellipsis">...</span>
+            </li>
+
+            <li th:if="${currentPage + 1 < totalPages}">
+                <a th:href="@{/orders(page=${totalPages - 1}, size=20)}" th:text="${totalPages}"></a>
+            </li>
+
+            <li th:if="${currentPage + 1 < totalPages}">
+                <a th:href="@{/orders(page=${currentPage + 1}, size=20)}">Вперёд</a>
             </li>
         </ul>
     </div>
-
 </div>
 </body>
 </html>

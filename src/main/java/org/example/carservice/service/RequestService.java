@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +45,13 @@ public class RequestService {
 
     public List<Request> findByVin(String vin) {
         return  requestRepository.findByCar_VinNumber(vin);
+    }
+
+    public List<Request> findByCarBrand(String brand) {
+        return requestRepository.findByCar_BrandContainingIgnoreCase(brand);
+    }
+
+    public Page<Request> findByCarBrandPaginated(String brand, Pageable pageable) {
+        return requestRepository.findByCar_BrandContainingIgnoreCase(brand, pageable);
     }
 }
