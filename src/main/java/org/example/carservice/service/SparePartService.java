@@ -44,4 +44,8 @@ public class SparePartService {
     public void deletePartById(Long id) {
         sparePartRepository.deleteById(id);
     }
+
+    public Page<SparePart> findAllSortPartsPaginated(Pageable pageable) {
+        return sparePartRepository.findAll(pageable);
+    }
 }

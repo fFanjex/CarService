@@ -163,6 +163,14 @@
         <button type="submit">Search</button>
     </form>
 
+    <form action="/parts/sort" method="get">
+        <input type="hidden" name="page" th:value="${currentPage}" />
+        <input type="hidden" name="size" th:value="${pageSize}" />
+        <input type="hidden" name="sortBy" th:value="${sortBy}" />
+        <button type="submit">Sort by Name</button>
+    </form>
+
+
     <div class="parts-list">
         <div th:each="part : ${parts}" class="part-item">
             <h2 th:text="${part.partName}"></h2>
@@ -176,11 +184,11 @@
     <div class="pagination">
         <ul>
             <li th:if="${currentPage > 0}">
-                <a th:href="@{/parts(page=${currentPage - 1})}">Назад</a>
+                <a th:href="@{/parts/sort(page=${currentPage - 1}, size=${pageSize}, sortBy=${sortBy})}">Назад</a>
             </li>
 
             <li th:if="${currentPage > 2}">
-                <a th:href="@{/parts(page=0)}">1</a>
+                <a th:href="@{/parts/sort(page=0, size=${pageSize}, sortBy=${sortBy})}">1</a>
             </li>
 
             <li th:if="${currentPage > 3}">
@@ -189,7 +197,7 @@
 
             <li th:each="i : ${#numbers.sequence(currentPage - 2 < 0 ? 0 : currentPage - 2, currentPage + 2 > totalPages - 1 ? totalPages - 1 : currentPage + 2)}"
                 th:classappend="${i == currentPage} ? 'active'">
-                <a th:href="@{/parts(page=${i})}" th:text="${i + 1}"></a>
+                <a th:href="@{/parts/sort(page=${i}, size=${pageSize}, sortBy=${sortBy})}" th:text="${i + 1}"></a>
             </li>
 
             <li th:if="${currentPage + 3 < totalPages}">
@@ -197,11 +205,11 @@
             </li>
 
             <li th:if="${currentPage + 2 < totalPages - 1}">
-                <a th:href="@{/parts(page=${totalPages - 1})}" th:text="${totalPages}"></a>
+                <a th:href="@{/parts/sort(page=${totalPages - 1}, size=${pageSize}, sortBy=${sortBy})}" th:text="${totalPages}"></a>
             </li>
 
             <li th:if="${currentPage < totalPages - 1}">
-                <a th:href="@{/parts(page=${currentPage + 1})}">Вперед</a>
+                <a th:href="@{/parts/sort(page=${currentPage + 1}, size=${pageSize}, sortBy=${sortBy})}">Вперед</a>
             </li>
         </ul>
     </div>
