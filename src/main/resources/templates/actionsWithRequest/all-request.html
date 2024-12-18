@@ -189,7 +189,7 @@
     <h1>Все заказы</h1>
 
     <div class="order-count">
-        Всего заказов: <span th:text="${totalItems}"></span>
+        Количество владельцев с машиной BMW: <span th:text="${ownersCount}"></span>
     </div>
 
     <form class="filter-form" th:action="@{/orders/filter}" method="get">

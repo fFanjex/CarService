@@ -84,10 +84,11 @@ public class MainController {
     public String viewAllOrders(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "20") int size, Model model) {
         Page<Request> requestPage = requestService.getAllRequestPaginated(PageRequest.of(page, size));
+        long ownersCount = requestService.countOwnersByCarBrand("BMW");
         model.addAttribute("requests", requestPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", requestPage.getTotalPages());
-        model.addAttribute("totalItems", requestPage.getTotalElements());
+        model.addAttribute("ownersCount", ownersCount);
         return "actionsWithRequest/all-request";
     }
 

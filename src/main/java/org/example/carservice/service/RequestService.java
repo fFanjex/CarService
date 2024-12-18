@@ -51,7 +51,7 @@ public class RequestService {
         return requestRepository.findByCar_BrandContainingIgnoreCase(brand);
     }
 
-    public Page<Request> findByCarBrandPaginated(String brand, Pageable pageable) {
-        return requestRepository.findByCar_BrandContainingIgnoreCase(brand, pageable);
+    public long countOwnersByCarBrand(String brand) {
+        return requestRepository.countDistinctOwnersByCarBrand(brand);
     }
 }
