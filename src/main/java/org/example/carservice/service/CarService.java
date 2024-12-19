@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CarService {
@@ -50,5 +51,9 @@ public class CarService {
                     return carRepository.save(car);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Car nor found"));
+    }
+
+    public List<Object[]> getCarStatistics() {
+        return carRepository.getCarStatistics();
     }
 }
